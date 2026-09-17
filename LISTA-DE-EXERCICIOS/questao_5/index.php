@@ -28,15 +28,15 @@
     <form action="" method="POST">
         <div class="campo">
             <label for="capital">Investimento Inicial (R$):</label>
-            <input type="number" id="capital" name="capital" step="0.01" value="1000.00" required>
+            <input type="number" id="capital" name="capital" step="0.01" value="" placeholder="Ex: 1000.00" required>
         </div>
         <div class="campo">
             <label for="taxa">Taxa de Juros Mensal (%):</label>
-            <input type="number" id="taxa" name="taxa" step="0.01" value="1.5" required>
+            <input type="number" id="taxa" name="taxa" step="0.01" value="" placeholder="Ex: 1.5" required>
         </div>
         <div class="campo">
             <label for="tempo">Período (Meses):</label>
-            <input type="number" id="tempo" name="tempo" step="1" value="12" required>
+            <input type="number" id="tempo" name="tempo" step="1" value="" placeholder="Ex: 12" required>
         </div>
         <button type="submit" name="simular">Simular Rendimento</button>
     </form>
@@ -47,6 +47,7 @@
 
         // Coleta e trata as entradas do formulário
         $saldo = floatval($_POST['capital']);
+        $valorInicial = $saldo;
         $taxaPercentual = floatval($_POST['taxa']);
         $mesesTotais = intval($_POST['tempo']); // <--- CORRIGIDO AQUI (Sem o espaço)
 
@@ -89,10 +90,24 @@
         echo "</tbody>";
         echo "</table>";
 
-        // Exibe o saldo final destacado
-        $saldoFinalFormatado = "R$ " . number_format($saldo, 2, ',', '.');
+        // Exibe o resumo final destacado        
+        echo "-------------------------------------------------------------------<br>";
+        echo "<h3>Resumo Final</h3>";
+        echo "-------------------------------------------------------------------<br>";
+        $valorInicialFormatado = "R$ " . number_format($valorInicial, 2, ',', '.');
+        echo "<div class='total'>Valor Inicial: {$valorInicialFormatado}</div>";
+        echo "<div class='total'>Taxa de Juros: {$taxaPercentual}% ao mês</div>";
+
+        $rendimentoTotal = $saldo - $valorInicial;
+        $rendimentoTotalFormatado = "R$ " . number_format($rendimentoTotal, 2, ',', '.');
+        echo "<div class='total'>Total de Rendimentos: {$rendimentoTotalFormatado}</div>";
+
+
+        $saldoFinalFormatado = "R$ " . number_format($saldo, 2, ',', '.');        
         echo "<div class='total'>Saldo Final Acumulado: {$saldoFinalFormatado}</div>";
+        echo "-------------------------------------------------------------------<br>";
         echo "</div>";
+        
     }
     ?>
 </div>
